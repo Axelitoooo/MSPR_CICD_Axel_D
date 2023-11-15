@@ -38,11 +38,11 @@ jobs:
         run: |
           ls -la 
           ipfs swarm peers
-          ipfs add depoitre.war
+          ipfs add depoitre.war > ipfs_key.txt
         shell: alpine.sh --root {0}
-      -name: Notification Discord
-  env:
-    DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-  run: |
-    ipfs_key="QmWqQt2xPQ5isM7ebrbV5Nbm9V6kg2ddaiBXmTW3ERxwAF"
-    curl -X POST -H "Content-Type: application/json" -d "{\"content\": \"Le workflow IPFS est terminé. Clé IPFS : $ipfs_key\"}" $DISCORD_WEBHOOK
+      - name: Notification Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          ipfs_key=$(cat ipfs_key.txt | awk '{print $2}')
+          curl -X POST -H "Content-Type: application/json" -d "{\"content\": \"Axel.D: Le workfl-owo IPFS est terminé. Clé IPFS : $ipfs_key\"}" $DISCORD_WEBHOOK
