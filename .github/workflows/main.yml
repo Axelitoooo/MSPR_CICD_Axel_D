@@ -46,3 +46,26 @@ jobs:
         run: |
           ipfs_key=$(cat ipfs_key.txt | awk '{print $2}')
           curl -X POST -H "Content-Type: application/json" -d "{\"content\": \"Axel.D: Le workfl-UwU IPFS est terminé. Clé IPFS : $ipfs_key\"}" $DISCORD_WEBHOOK
+          jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install IPFS
+        run: |
+          wget https://dist.ipfs.io/go-ipfs/v0.8.0/go-ipfs_v0.8.0_linux-amd64.tar.gz
+          tar xvfz go-ipfs_v0.8.0_linux-amd64.tar.gz
+          cd go-ipfs
+          sudo bash install.sh
+
+      - name: Run MySQL Backup
+        run: bash sauvegarde_mysql.sh
+
+      - name: Add Backup to IPFS
+        run: |
+          ipfs init
+          ipfs daemon &
+          ipfs add sauvegarde_films.sql
+
