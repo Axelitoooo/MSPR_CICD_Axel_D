@@ -44,5 +44,5 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
-          ipfs_key=$(cat QmWqQt2xPQ5isM7ebrbV5Nbm9V6kg2ddaiBXmTW3ERxwAF.txt)
+          ipfs_key=$(cat Axelito.txt)
           curl -X POST -H "Content-Type: application/json" -d "{\"content\": \"Le workflow IPFS est terminé. Clé IPFS : $ipfs_key\"}" $DISCORD_WEBHOOK
